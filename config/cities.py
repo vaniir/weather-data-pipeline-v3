@@ -14,9 +14,3 @@ cities_coordinates = {
     "General Santos": {"lat": 6.1164, "lon": 125.1716},
     "Puerto Princesa": {"lat": 9.7392, "lon": 118.7353}
 }
-
-# print("cities.py loaded")
-
-# cities_coordinates = {
-#     "Test": {"lat": 1, "lon": 2}
-# }
