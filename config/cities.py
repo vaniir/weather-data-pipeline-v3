@@ -1,4 +1,4 @@
-cities_coordinates = {
+CITIES = {
     "Quezon City": {"lat": 14.6760, "lon": 121.0437},
     "Manila": {"lat": 14.5995, "lon": 120.9842},
     "Davao City": {"lat": 7.0736, "lon": 125.6110},
