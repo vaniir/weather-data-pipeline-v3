@@ -4,7 +4,7 @@ import json
 
 weatherapi_url = "http://api.weatherapi.com/v1/current.json"
 
-def fetch_weatherapi(city):
+def fetch_weatherapi(city: str):
 
     weatherapi_param = {
         "key": WEATHERAPI_KEY,

@@ -15,7 +15,7 @@ openmeteo_current = ",".join([
         "is_day"
     ])
 
-def fetch_openmeteo(coordinates):
+def fetch_openmeteo(coordinates: dict):
     lat = coordinates["lat"]
     lon = coordinates["lon"]
 
