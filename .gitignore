@@ -1,4 +1,12 @@
+# Python
 .venv/
-.env
 __pycache__/
 *.pyc
+
+# Environment variables
+.env
+
+# dbt
+dbt/weather_transformations/target/
+dbt/weather_transformations/dbt_packages/
+dbt/weather_transformations/logs/
