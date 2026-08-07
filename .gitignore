@@ -7,6 +7,6 @@ __pycache__/
 .env
 
 # dbt
-dbt/weather_transformations/target/
-dbt/weather_transformations/dbt_packages/
-dbt/weather_transformations/logs/
+target/
+dbt_packages/
+logs/
