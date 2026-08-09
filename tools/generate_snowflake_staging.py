@@ -3,15 +3,15 @@ from Extract.openmeteo import fetch_openmeteo
 from Extract.weatherapi import fetch_weatherapi
 
 def flatten(payload, label="payload"):
-    x = []
+    current = {}
 
     if isinstance(payload, dict):
         for k, v in payload.items():
-            x.extend(flatten(v, f"{label}:{k}"))
+            current.update(flatten(v, f"{label}:{k}"))
 
     elif isinstance(payload, list):
         if payload:
-            x.extend(flatten(payload[0], f"{label}[0]"))
+            current.update(flatten(payload[0], f"{label}[0]"))
 
     else:
         if isinstance(payload, bool):
@@ -23,14 +23,25 @@ def flatten(payload, label="payload"):
         else:
             dt = "STRING"
 
-        name = label.replace("payload", "").replace(":", "_").replace(".", "_")
-        x.append(f"     {label}::{dt.lower()} as {name}")
+        current[label] = dt
 
-    return x
+    return current
 
+def create_schema(flattened, db="weather_data", table="raw.weatherapi_raw"):
+    s = []
+    for k, v in flattened.items():
+        s.append(f"    {k}::{v} as {k.replace('payload', '').replace(':', '_').replace('[0]', '')}")
+
+    print("select")
+    print(", \n".join(s))
+    print(f"from {db}.{table};")
+
+# add save_schema and compare_schema functions
 
 sample = fetch_weatherapi("Manila")
+flattened = flatten(sample)
+create_schema(flattened)
 
-print("select")
-print(", \n".join(flatten(sample)))
-print("from weather_data.raw.weatherapi_raw;")
+# print("select")
+# print(", \n".join(flatten(sample)))
+# print("from weather_data.raw.weatherapi_raw;")
