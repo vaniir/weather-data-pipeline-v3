@@ -1,31 +1,45 @@
 select
-     payload:coord:lon::float as _coord_lon, 
-     payload:coord:lat::float as _coord_lat, 
-     payload:weather[0]:id::integer as _weather[0]_id, 
-     payload:weather[0]:main::string as _weather[0]_main, 
-     payload:weather[0]:description::string as _weather[0]_description, 
-     payload:weather[0]:icon::string as _weather[0]_icon, 
-     payload:base::string as _base, 
-     payload:main:temp::float as _main_temp, 
-     payload:main:feels_like::float as _main_feels_like, 
-     payload:main:temp_min::float as _main_temp_min, 
-     payload:main:temp_max::float as _main_temp_max, 
-     payload:main:pressure::integer as _main_pressure, 
-     payload:main:humidity::integer as _main_humidity, 
-     payload:main:sea_level::integer as _main_sea_level, 
-     payload:main:grnd_level::integer as _main_grnd_level, 
-     payload:visibility::integer as _visibility, 
-     payload:wind:speed::float as _wind_speed, 
-     payload:wind:deg::integer as _wind_deg, 
-     payload:wind:gust::float as _wind_gust, 
-     payload:rain:1h::float as _rain_1h, 
-     payload:clouds:all::integer as _clouds_all, 
-     payload:dt::integer as _dt, 
-     payload:sys:country::string as _sys_country, 
-     payload:sys:sunrise::integer as _sys_sunrise, 
-     payload:sys:sunset::integer as _sys_sunset, 
-     payload:timezone::integer as _timezone, 
-     payload:id::integer as _id, 
-     payload:name::string as _name, 
-     payload:cod::integer as _cod
-from weather_data.raw.openweather_raw;
+    -- Location
+    payload:name::STRING as name,
+    payload:id::INTEGER as id,
+    payload:coord.lon::FLOAT as coord_lon,
+    payload:coord.lat::FLOAT as coord_lat,
+    payload:timezone::INTEGER as timezone,
+
+    -- API metadata
+    payload:base::STRING as base,
+    to_timestamp_ntz(payload:dt::INTEGER) as observation_timestamp,
+    payload:cod::INTEGER as response_code,
+
+    -- Weather condition
+    payload:weather[0].id::INTEGER as weather_id,
+    payload:weather[0].main::STRING as weather_main,
+    payload:weather[0].description::STRING as weather_description,
+    payload:weather[0].icon::STRING as weather_icon,
+
+    -- Atmospheric measurements
+    payload:main.temp::FLOAT as temp,
+    payload:main.feels_like::FLOAT as feels_like,
+    payload:main.temp_min::FLOAT as temp_min,
+    payload:main.temp_max::FLOAT as temp_max,
+    payload:main.pressure::INTEGER as pressure,
+    payload:main.humidity::INTEGER as humidity,
+    payload:main.sea_level::INTEGER as sea_level,
+    payload:main.grnd_level::INTEGER as ground_level,
+    payload:visibility::INTEGER as visibility,
+
+    -- Wind
+    payload:wind.speed::FLOAT as wind_speed,
+    payload:wind.deg::INTEGER as wind_direction,
+    payload:wind.gust::FLOAT as wind_gust,
+
+    -- Precipitation and clouds
+    payload:rain['1h']::FLOAT as rain,
+    payload:clouds.all::INTEGER as cloud_cover,
+
+    -- System information
+    payload:sys.country::STRING as country,
+    payload:sys.sunrise::INTEGER as sunrise,
+    payload:sys.sunset::INTEGER as sunset
+
+from weather_data.raw.openweather_raw
