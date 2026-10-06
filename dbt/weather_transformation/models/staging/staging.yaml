@@ -1,0 +1,94 @@
+version: 2
+
+models:
+  - name: stg_openweather
+    columns:
+      - name: city_name
+        data_tests:
+          - not_null
+      - name: latitude
+        data_tests:
+          - not_null
+      - name: longitude
+        data_tests:
+          - not_null
+      - name: observation_timestamp
+        data_tests:
+          - not_null
+      - name: temperature
+        data_tests:
+          - not_null
+      - name: humidity
+        data_tests:
+          - not_null
+      - name: feels_like
+        data_tests:
+          - not_null
+      - name: pressure
+        data_tests:
+          - not_null
+      - name: wind_speed
+        data_tests:
+          - not_null
+
+  - name: stg_openmeteo
+    columns:
+      - name: city_name
+        data_tests:
+          - not_null
+      - name: latitude
+        data_tests:
+          - not_null
+      - name: longitude
+        data_tests:
+          - not_null
+      - name: observation_timestamp
+        data_tests:
+          - not_null
+      - name: temperature
+        data_tests:
+          - not_null
+      - name: humidity
+        data_tests:
+          - not_null
+      - name: feels_like
+        data_tests:
+          - not_null
+      - name: pressure
+        data_tests:
+          - not_null
+      - name: wind_speed
+        data_tests:
+          - not_null
+
+  - name: stg_weatherapi
+    columns:
+      - name: city_name
+        data_tests:
+          - not_null
+      - name: latitude
+        data_tests:
+          - not_null
+      - name: longitude
+        data_tests:
+          - not_null
+      - name: observation_timestamp
+        data_tests:
+          - not_null
+      - name: temperature
+        data_tests:
+          - not_null
+      - name: humidity
+        data_tests:
+          - not_null
+      - name: feels_like
+        data_tests:
+          - not_null
+      - name: pressure
+        data_tests:
+          - not_null
+      - name: wind_speed
+        data_tests:
+          - not_null
+
+# Normalize every column to be consistent across all three sources. This will make it easier to combine the data later on.

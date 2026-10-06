@@ -1,0 +1,29 @@
+source,weather_code,weather_description
+openmeteo,0,Clear sky
+openmeteo,1,Mainly clear
+openmeteo,2,Partly cloudy
+openmeteo,3,Overcast
+openmeteo,45,Fog
+openmeteo,48,Depositing rime fog
+openmeteo,51,Light drizzle
+openmeteo,53,Moderate drizzle
+openmeteo,55,Dense drizzle
+openmeteo,56,Light freezing drizzle
+openmeteo,57,Dense freezing drizzle
+openmeteo,61,Slight rain
+openmeteo,63,Moderate rain
+openmeteo,65,Heavy rain
+openmeteo,66,Light freezing rain
+openmeteo,67,Heavy freezing rain
+openmeteo,71,Slight snow fall
+openmeteo,73,Moderate snow fall
+openmeteo,75,Heavy snow fall
+openmeteo,77,Snow grains
+openmeteo,80,Slight rain showers
+openmeteo,81,Moderate rain showers
+openmeteo,82,Violent rain showers
+openmeteo,85,Slight snow showers
+openmeteo,86,Heavy snow showers
+openmeteo,95,Thunderstorm
+openmeteo,96,Thunderstorm with slight hail
+openmeteo,99,Thunderstorm with heavy hail

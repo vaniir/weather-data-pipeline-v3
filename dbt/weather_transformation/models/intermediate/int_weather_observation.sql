@@ -1,15 +1,18 @@
 select
-    ow.name as city_name,
-    ow.coord_lat as latitude,
-    ow.coord_lon as longitude,
+    'openweather' as source,
+
+    ow.city_name as city_name,
+    ow.latitude as latitude,
+    ow.longitude as longitude,
 
     ow.observation_timestamp as observation_timestamp,
 
-    ow.temp as temp,
+    ow.temperature as temp,
     ow.humidity as humidity,
     ow.feels_like as feels_like,
     ow.pressure as pressure,
-    ow.wind_speed as wind_speed,
+    round(ow.wind_speed * 3.6, 2) as wind_speed, -- from m/s to km/h
+    ow.wind_direction as wind_direction,
 
     ow.weather_description as weather_description
 
@@ -18,26 +21,34 @@ from {{ ref('stg_openweather') }} as ow
 union all
 
 select
-    wa.location_name as city_name,
-    wa.location_lat as latitude,
-    wa.location_lon as longitude,
+    'weatherapi' as source,
+
+    wa.city_name as city_name,
+    wa.latitude as latitude,
+    wa.longitude as longitude,
 
     wa.observation_timestamp as observation_timestamp,
 
-    wa.temp_c as temp,
+    wa.temperature as temp,
     wa.humidity as humidity,
-    wa.feels_like_c as feels_like,
-    wa.pressure_mb as pressure,
-    wa.wind_speed_kph as wind_speed,
+    wa.feels_like as feels_like,
+    wa.pressure as pressure,
+    wa.wind_speed as wind_speed,
+    wd.direction_degrees as wind_direction,
 
-    wa.weather_condition_text as weather_description
+    wa.weather_description as weather_description
 
 from {{ ref('stg_weatherapi') }} as wa
+
+left join {{ ref('weather_direction_mapping') }} as wd
+    on wa.wind_direction = wd.wind_direction
     
 union all
 
 select
-    NULL::STRING as city_name, -- will neeed to map city name from lat/lon using reverse geocoding
+    'openmeteo' as source,
+
+    om.city_name as city_name, -- from metadata
     om.latitude as latitude,
     om.longitude as longitude,
 
@@ -45,14 +56,15 @@ select
 
     om.temperature as temp,
     om.humidity as humidity,
-    om.apparent_temperature as feels_like,
+    om.feels_like as feels_like,
     om.pressure as pressure,
     om.wind_speed as wind_speed,
+    om.wind_direction as wind_direction,
 
-    w.weather_description as weather_description
+    wc.weather_description as weather_description
 
 from {{ ref('stg_openmeteo') }} as om
     
-left join {{ ref('weather_code_mapping') }} as w
-    on om.weather_code = w.weather_code 
-    and w.source = 'openmeteo'
+left join {{ ref('weather_code_mapping') }} as wc
+    on om.weather_code = wc.weather_code 
+    and wc.source = 'openmeteo'

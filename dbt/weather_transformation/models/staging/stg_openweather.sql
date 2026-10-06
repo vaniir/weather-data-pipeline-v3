@@ -1,9 +1,11 @@
 select
+    ingested_at as ingested_timestamp,
+
     -- Location
-    payload:name::STRING as name,
+    payload:name::STRING as city_name,
     payload:id::INTEGER as id,
-    payload:coord.lon::FLOAT as coord_lon,
-    payload:coord.lat::FLOAT as coord_lat,
+    payload:coord.lon::FLOAT as longitude,
+    payload:coord.lat::FLOAT as latitude,
     payload:timezone::INTEGER as timezone,
 
     -- API metadata
@@ -18,7 +20,7 @@ select
     payload:weather[0].icon::STRING as weather_icon,
 
     -- Atmospheric measurements
-    payload:main.temp::FLOAT as temp,
+    payload:main.temp::FLOAT as temperature,
     payload:main.feels_like::FLOAT as feels_like,
     payload:main.temp_min::FLOAT as temp_min,
     payload:main.temp_max::FLOAT as temp_max,

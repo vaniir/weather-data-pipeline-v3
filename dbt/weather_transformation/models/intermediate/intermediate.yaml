@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: int_weather_observation
+    columns:
+      - name: source
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - openweather
+                  - openmeteo
+                  - weatherapi

@@ -1,5 +1,8 @@
 select
+    ingested_at as ingested_timestamp,
+
     -- Location metadata
+    city_name::STRING as city_name,
     payload:latitude::FLOAT as latitude,
     payload:longitude::FLOAT as longitude,
     payload:elevation::FLOAT as elevation,
@@ -33,7 +36,7 @@ select
     payload:current.time::STRING as time,
     payload:current.interval::INTEGER as interval,
     payload:current.temperature_2m::FLOAT as temperature,
-    payload:current.apparent_temperature::FLOAT as apparent_temperature,
+    payload:current.apparent_temperature::FLOAT as feels_like,
     payload:current.relative_humidity_2m::INTEGER as humidity,
     payload:current.pressure_msl::FLOAT as pressure,
     payload:current.wind_speed_10m::FLOAT as wind_speed,

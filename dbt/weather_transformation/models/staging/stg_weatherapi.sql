@@ -1,10 +1,12 @@
 select
+    ingested_at as ingested_timestamp,
+
     -- Location
-    payload:location.name::STRING as location_name,
+    payload:location.name::STRING as city_name,
     payload:location.region::STRING as location_region,
     payload:location.country::STRING as location_country,
-    payload:location.lat::FLOAT as location_lat,
-    payload:location.lon::FLOAT as location_lon,
+    payload:location.lat::FLOAT as latitude,
+    payload:location.lon::FLOAT as longitude,
     payload:location.tz_id::STRING as location_tz_id,
     payload:location.localtime_epoch::INTEGER as location_localtime_epoch,
     payload:location.localtime::STRING as location_localtime,
@@ -20,30 +22,30 @@ select
 
     -- Weather condition
     payload:current.is_day::INTEGER as is_day,
-    payload:current.condition.text::STRING as weather_condition_text,
-    payload:current.condition.icon::STRING as weather_condition_icon,
-    payload:current.condition.code::INTEGER as weather_condition_code,
+    payload:current.condition.text::STRING as weather_description,
+    payload:current.condition.icon::STRING as weather_icon,
+    payload:current.condition.code::INTEGER as weather_code,
 
     -- Atmospheric measurements
-    payload:current.temp_c::FLOAT as temp_c,
-    payload:current.temp_f::FLOAT as temp_f,
-    payload:current.feelslike_c::FLOAT as feels_like_c,
+    payload:current.temp_c::FLOAT as temperature,
+    payload:current.temp_f::FLOAT as temperature_f,
+    payload:current.feelslike_c::FLOAT as feels_like,
     payload:current.feelslike_f::FLOAT as feels_like_f,
-    payload:current.pressure_mb::FLOAT as pressure_mb,
+    payload:current.pressure_mb::FLOAT as pressure,
     payload:current.pressure_in::FLOAT as pressure_in,
     payload:current.humidity::INTEGER as humidity,
     payload:current.cloud::INTEGER as cloud_cover,
 
     -- Wind
-    payload:current.wind_kph::FLOAT as wind_speed_kph,
+    payload:current.wind_kph::FLOAT as wind_speed,
     payload:current.wind_mph::FLOAT as wind_speed_mph,
     payload:current.wind_degree::INTEGER as wind_direction_deg,
     payload:current.wind_dir::STRING as wind_direction,
-    payload:current.gust_kph::FLOAT as wind_gust_kph,
+    payload:current.gust_kph::FLOAT as wind_gust,
     payload:current.gust_mph::FLOAT as wind_gust_mph,
 
     -- Precipitation
-    payload:current.precip_mm::FLOAT as precipitation_mm,
+    payload:current.precip_mm::FLOAT as precipitation,
     payload:current.precip_in::FLOAT as precipitation_in,
     payload:current.will_it_rain::INTEGER as will_rain,
     payload:current.chance_of_rain::INTEGER as chance_of_rain,
