@@ -1,0 +1,28 @@
+name: Weather Data Ingestion
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ingest:
+    runs_on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run ingestion pipeline
+        run: python -m Orchestration.flow
+
+            - name: Restore environment variables
+        env:
+          ENV_CONTENT: ${{ secrets.ENV_FILE }}
+        run: printf '%s\n' "$ENV_CONTENT" > .env
