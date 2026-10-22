@@ -26,3 +26,27 @@ jobs:
         env:
           ENV_CONTENT: ${{ secrets.ENV_FILE }}
         run: printf '%s\n' "$ENV_CONTENT" > .env
+
+      - name: Validate environment configuration
+        run: |
+          python - <<'PY'
+          from config import settings
+
+          required = [
+              "SNOWFLAKE_ACCOUNT",
+              "SNOWFLAKE_USER",
+              "SNOWFLAKE_PASSWORD",
+              "SNOWFLAKE_WAREHOUSE",
+              "SNOWFLAKE_DATABASE",
+              "SNOWFLAKE_SCHEMA",
+              "OPENWEATHER_KEY",
+              "WEATHERAPI_KEY",
+          ]
+
+          missing = [name for name in required if not getattr(settings, name, None)]
+
+          if missing:
+              raise RuntimeError(f"Missing environment settings: {', '.join(missing)}")
+
+          print("All required environment settings are present.")
+          PY
