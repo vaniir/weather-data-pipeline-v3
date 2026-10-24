@@ -11,6 +11,7 @@ def fetch_weatherapi(city: str):
         "q": f"{city},PH"
     }
 
-    weatherapi_response = requests.get(weatherapi_url, params=weatherapi_param)
+    weatherapi_response = requests.get(weatherapi_url, params=weatherapi_param, timeout=(5, 15))
+    weatherapi_response.raise_for_status() 
 
     return weatherapi_response.json()
