@@ -5,7 +5,7 @@ from Extract.weatherapi import fetch_weatherapi
 from Load.snowflake_loader import load_to_snowflake
 
 def run():
-    failed_request = 0 # for github action
+    failed_requests = [] # for github action
 
     for city, coords in CITIES.items():
         latitude = coords["lat"]
@@ -14,31 +14,36 @@ def run():
             payload = fetch_openweather(city)
             load_to_snowflake("OPENWEATHER_RAW", city, latitude, longitude, payload)
         except Exception as e:
+            failed_requests.append(("OpenWeather", city, str(e)))
             print(f"OpenWeather failed for {city}")
             print(f"Error type: {type(e)}")
             print(f"Error: {repr(e)}")
-            failed_request += 1
         try:
             payload = fetch_openmeteo(coords)
             load_to_snowflake("OPENMETEO_RAW", city, latitude, longitude, payload)
         except Exception as e:
+            failed_requests.append(("OpenMeteo", city, str(e)))
             print(f"OpenMeteo failed for {city}")
             print(f"Error type: {type(e)}")
             print(f"Error: {repr(e)}")
-            failed_request += 1
 
         try:
             payload = fetch_weatherapi(city)
             load_to_snowflake("WEATHERAPI_RAW", city, latitude, longitude, payload)
         except Exception as e:
+            failed_requests.append(("WeatherAPI", city, str(e)))
             print(f"WeatherAPI failed for {city}")
             print(f"Error type: {type(e)}")
             print(f"Error: {repr(e)}")
-            failed_request += 1
 
-    if failed_request:
+    if failed_requests:
+        print("\n=== FAILED INGESTION ATTEMPTS ===")
+
+        for source, city, error in failed_requests:
+            print(f"{source} | {city} | {error}")
+
         raise RuntimeError(
-            f"Ingestion finished with {failed_request} failed ingestion attempt(s)."
+            f"Ingestion finished with {len(failed_requests)} failed ingestion attempt(s)."
         )
 
 if __name__ == "__main__":
