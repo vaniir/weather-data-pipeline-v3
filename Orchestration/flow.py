@@ -49,9 +49,11 @@ def run():
         raise RuntimeError(
             f"Ingestion finished with {len(failed_requests)} failed ingestion attempt(s)."
         )
-
-    for source, city in successful_requests:
-        print(f"{source} | {city} | Ingestion successful.")
+    
+    if successful_requests:
+        print("\n=== SUCCESSFUL INGESTION ATTEMPTS ===")
+        for source, city in successful_requests:
+            print(f"{source} | {city} | Ingestion successful.")
 
 if __name__ == "__main__":
     run()
