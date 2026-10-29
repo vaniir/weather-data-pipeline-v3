@@ -27,6 +27,9 @@ def fetch_openmeteo(coordinates: dict):
 
     # openmeteo_response = requests.get(openmeteo_url, params=openmeteo_param, timeout=(5, 30))
 
+    print(f"Requests version: {requests.__version__}")
+    print(f"Open-Meteo timeout: {(5, 30)}")
+    
     try:
         openmeteo_response = requests.get(
             openmeteo_url,
