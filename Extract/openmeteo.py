@@ -25,7 +25,19 @@ def fetch_openmeteo(coordinates: dict):
         "current": openmeteo_current
     }
 
-    openmeteo_response = requests.get(openmeteo_url, params=openmeteo_param, timeout=(10, 30))
+    # openmeteo_response = requests.get(openmeteo_url, params=openmeteo_param, timeout=(5, 30))
+
+    try:
+        openmeteo_response = requests.get(
+            openmeteo_url,
+            params=openmeteo_param,
+            timeout=(5, 30)
+        )
+    except requests.exceptions.Timeout as e:
+        print(f"Timeout exception: {type(e).__name__}")
+        print(f"Exception details: {e!r}")
+        raise
+
     openmeteo_response.raise_for_status()
 
     return openmeteo_response.json()
