@@ -11,7 +11,7 @@ def fetch_openweather(city: str):
         "APPID": OPENWEATHER_KEY
     }
 
-    openweather_response = requests.get(openweather_url, params=openweather_param, timeout=(5, 15))
+    openweather_response = requests.get(openweather_url, params=openweather_param, timeout=(5, 30))
     openweather_response.raise_for_status()
 
     return openweather_response.json()
