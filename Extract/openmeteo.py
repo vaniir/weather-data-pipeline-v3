@@ -1,19 +1,21 @@
+
 import requests
+import time
 
 openmeteo_url = "https://api.open-meteo.com/v1/forecast"
 
 openmeteo_current = ",".join([
-        "temperature_2m",
-        "apparent_temperature",
-        "relative_humidity_2m",
-        "pressure_msl",
-        "wind_speed_10m",
-        "wind_direction_10m",
-        "cloud_cover",
-        "precipitation",
-        "weather_code",
-        "is_day"
-    ])
+    "temperature_2m",
+    "apparent_temperature",
+    "relative_humidity_2m",
+    "pressure_msl",
+    "wind_speed_10m",
+    "wind_direction_10m",
+    "cloud_cover",
+    "precipitation",
+    "weather_code",
+    "is_day"
+])
 
 def fetch_openmeteo(coordinates: dict):
     lat = coordinates["lat"]
@@ -25,10 +27,7 @@ def fetch_openmeteo(coordinates: dict):
         "current": openmeteo_current
     }
 
-    # openmeteo_response = requests.get(openmeteo_url, params=openmeteo_param, timeout=(5, 30))
-
-    print(f"Requests version: {requests.__version__}")
-    print(f"Open-Meteo timeout: {(5, 30)}")
+    start = time.monotonic()
 
     try:
         openmeteo_response = requests.get(
@@ -36,14 +35,17 @@ def fetch_openmeteo(coordinates: dict):
             params=openmeteo_param,
             timeout=(5, 30)
         )
-    except requests.exceptions.Timeout as e:
-        print(f"Timeout exception: {type(e).__name__}")
-        print(f"Exception details: {e!r}")
-        print(f"Exception args: {e.args}")
 
-        cause = e.__cause__
-        print(f"Cause: {cause!r}")
+    except requests.exceptions.Timeout as e:
+        elapsed = time.monotonic() - start
+
+        print(f"[Open-Meteo] FAILED | {lat}, {lon}")
+        print(f"Elapsed: {elapsed:.2f} seconds")
+        print(f"Exception: {e!r}")
         raise
+
+    elapsed = time.monotonic() - start
+    print(f"[Open-Meteo] SUCCESS | {lat}, {lon} | {elapsed:.2f} seconds")
 
     openmeteo_response.raise_for_status()
 
