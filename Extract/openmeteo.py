@@ -29,7 +29,7 @@ def fetch_openmeteo(coordinates: dict):
 
     print(f"Requests version: {requests.__version__}")
     print(f"Open-Meteo timeout: {(5, 30)}")
-    
+
     try:
         openmeteo_response = requests.get(
             openmeteo_url,
@@ -39,6 +39,10 @@ def fetch_openmeteo(coordinates: dict):
     except requests.exceptions.Timeout as e:
         print(f"Timeout exception: {type(e).__name__}")
         print(f"Exception details: {e!r}")
+        print(f"Exception args: {e.args}")
+
+        cause = e.__cause__
+        print(f"Cause: {cause!r}")
         raise
 
     openmeteo_response.raise_for_status()
